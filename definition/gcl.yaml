@@ -1,0 +1,24 @@
+---
+apiVersion: gateway.mulesoft.com/v1alpha1
+kind: Extension
+metadata:
+  labels:
+    title: OpenAI API Key Management
+    description: Adds the specified OpenAI API key to any outbound request to openai.api.com.
+    category: Custom
+spec:
+  extends:
+    - name: extension-definition
+      namespace: default
+  properties:
+    openai-api-key:
+      description: Your API key from OpenAI.
+      type: string
+      default: "<Your OpenAI API Key 1>"
+      "@context": {
+        "@characteristics": [
+          "security:sensitive"
+        ]
+      }
+  required:
+    - openai-api-key

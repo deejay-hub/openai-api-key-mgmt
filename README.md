@@ -1,7 +1,43 @@
 # Open API Key Management Policy
 
-This policy was created with the Flex Gateway Policy Development Kit (PDK). To find the complete PDK documentation, see [PDK Overview](https://docs.mulesoft.com/pdk/latest/policies-pdk-overview) on the Mulesoft documentation site.
+This policy was created with the Flex Gateway Policy Development Kit (PDK). To find the complete PDK documentation, see [PDK Overview](https://docs.mulesoft.com/pdk/latest/policies-pdk-overview) on the MuleSoft documentation site.
 
+## How it Works
+
+#### Policy Configuration Properties
+
+The component has the following properties that can be set at design time in App Builder by an administrator
+
+| Property                        | Description                              | Type                                   |
+| ------------------------------- | ---------------------------------------- | -------------------------------------- |
+| `openai-api-key`                | Allows you to input an OpenAI API Key    | Array                                  |
+
+## Example
+
+When calling the OpenAI API you will need to include the key value setup.
+
+However, with Flex gateway being used and openai.api.com as the upstream api we can intercept the request and dynamically inject the key from the configuration on the policy. In the example below we have assumed you have flex gateway deployed locally.
+
+No need for the `"Authorization: Bearer $OPENAI_API_KEY"`
+
+```
+>  curl http://localhost:8081/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an assistant, skilled in explaining MuleSoft concepts with creative flair. Keep responses free from bias and without obsenities"
+      },
+      {
+        "role": "user",
+        "content": "create a poem about Flex Gateway in less than 20 words"
+      }
+    ]
+  }'
+  
+```
 
 ## Make command reference
 This project has a Makefile that includes different goals that assist the developer during the policy development lifecycle.

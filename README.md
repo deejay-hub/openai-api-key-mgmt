@@ -10,11 +10,11 @@ The component has the following properties that can be set at design time in App
 
 | Property                        | Description                              | Type                                   |
 | ------------------------------- | ---------------------------------------- | -------------------------------------- |
-| `openai-api-key`                | Allows you to input an OpenAI API Key    | Array                                  |
+| `openai-api-key`                | Allows you to input an OpenAI API Key    | String                                 |
 
 ## Example
 
-When calling the OpenAI API you will need to include the key value setup.
+When calling the OpenAI API you will need to include the key in the policy configuration setup.
 
 However, with Flex gateway being used and openai.api.com as the upstream api we can intercept the request and dynamically inject the key from the configuration on the policy. In the example below we have assumed you have flex gateway deployed locally.
 

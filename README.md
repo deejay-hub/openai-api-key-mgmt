@@ -50,12 +50,68 @@ No need for the `"Authorization: Bearer $OPENAI_API_KEY"`
 ```
 
 ## Try It
-These setup steps use Flex Gateway in connected mode running locally on a Mac.
+These setup steps use Flex Gateway in connected mode running locally on a Mac. Make sure you have docker desktop installed.
 
 ### Flex Gateway
-Create a new Flex Gateway instance using Docker.
+Step 1. Open Anypoint Platform and head to Runtime Manager. Select Flex Gateways then choose Container -> Docker.
 
-An an HTTP API. Set upstream value to openai.api.com/v1 and set x to flex-api (optional) but future examples use this.
+Step 2. Pull the flex gateway image and start the gateway on port 8081.
+
+a) Pull the latest image
+```
+docker pull mulesoft/flex-gateway
+```
+b) Create a new directory then register the Flex Gateway to Anypoint Platform replacing `gateway-name` with your own value.
+```
+docker run --entrypoint flexctl -u $UID \
+  -v "$(pwd)":/registration mulesoft/flex-gateway \
+  registration create --organization=adfa825c-fc0d-4ba3-a5ba-ab35a7194a39 \
+  --token=8eb976e5-9ab1-4048-bdd6-89504008632a \
+  --output-directory=/registration \
+  --connected=true \
+  <gateway-name>
+```
+c) Start the gateway
+docker run --rm \
+  -v "$(pwd)":/usr/local/share/mulesoft/flex-gateway/conf.d \
+  -p 8081:8081 \
+  mulesoft/flex-gateway
+
+Step 3. Head to API Manager in Anypoint. Select `Add API -> Add new API`.
+
+Step 4. Make sure Flex Gateway is selected as the runtime then select the Flex Gateway you created in Step 2. Click Next.
+
+Step 5. Select Create new API. Choose `OpenAI API` as the name and and `open-ai-api` as the asset id. Click Next.
+
+Step 6. Select Port `8081` and change the base path to `/flex-api`. Click Next.
+
+Step 7. Enter `https://openai.api.com/v1` as the upstream URL
+
+Test the configuration by calling the Flex Gateway endpoint to see that you get a response from OpenAI. Note that since we don't include the OpenAI API key we will get a 401 unauthorised at this stage. Note that you will need to restrict the response payload so use terms like 'in less than 20 words' to get OpenAI to return a consumable response.
+
+```
+curl -X POST http://localhost:8081/flex-api/chat/completions   -H "Content-Type: application/json"  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are an assistant, skilled in explaining MuleSoft concepts with creative flair. Keep responses free from bias and without obsenities."
+      },
+      {
+        "role": "user",
+        "content": "Compose a poem in less than 10 words."
+      }
+    ]
+  }'
+```
+Step 8. After downloading the policy use `make build` then `make release`.
+
+Step 9. Apply the policy in API Manager to the API created in Step 3. In the openai-api-key section enter a valid key from OpenAI.
+
+
+
+Step 10. Verify that the policy now 
+
 
 
 ## Make command reference

@@ -6,19 +6,18 @@ use pdk::logger;
 
 use crate::generated::config::Config;
 
-//TDX 24 CENTRALIZED KEY MANAGEMENT - Retrieve the Open API Key and add to header
+//CENTRALIZED KEY MANAGEMENT - Retrieve the Open API Key and add to header
 async fn request_filter(request_state: RequestState, config: &Config) {
-    logger::info!("===>TDX'24 - OPENAI API KEY MANAGEMENT<===");
+    logger::info!("==================>OPENAI API KEY MANAGEMENT FLEX GATEWAY POLICY<=====================>");
 
     let openai_api_key = &config.openai_api_key;
     let redacted_key = format!("{}{}", &openai_api_key[..6], "****************");
     
     let headers = request_state.into_headers_state().await;
 
-    logger::info!("==>TDX'24 - ADDING HEADER: {redacted_key}",);
+    logger::info!("==>ADDING KET TO HEADER: {redacted_key}",);
     headers.handler().add_header("Authorization", format!("Bearer {}", openai_api_key).as_str());
     
-    logger::info!("=================>END<=================");
     Flow::Continue(());
 }
 

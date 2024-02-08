@@ -1,7 +1,7 @@
 # Copyright 2023 Salesforce, Inc. All rights reserved.
 [package]
 name = "openai_api_key_mgmt"
-version = "1.0.2"
+version = "1.0.3"
 rust-version = "1.74.0"
 edition = "2018"
 

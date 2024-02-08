@@ -1,18 +1,28 @@
-# Open API Key Management Policy
+<div align="center">
+	<img
+	width="50"
+	src="/images/flex-gateway.svg">
+	<h1>Open API Key Management Policy</h1>
+</div>
+
+<h4 align="center">
+	<a href="#overview">Overview</a> |
+	<a href="#try-it">Try It</a> |
+  <a href="#make-command-reference">Make Reference</a>
+</h4>
+
+## Overview
 
 This policy was created with the Flex Gateway Policy Development Kit (PDK). To find the complete PDK documentation, see [PDK Overview](https://docs.mulesoft.com/pdk/latest/policies-pdk-overview) on the MuleSoft documentation site.
-
-## How it Works
-
-#### Policy Configuration Properties
 
 The component has the following properties that can be set at design time in App Builder by an administrator
 
 | Property                        | Description                              | Type                                   |
 | ------------------------------- | ---------------------------------------- | -------------------------------------- |
-| `openai-api-key`                | Allows you to input an OpenAI API Key    | String                                 |
+| `openai-api-key`                | Allows you to input an OpenAI API Key    | String    
 
-## Example
+
+### Example
 
 When calling the OpenAI API you will need to include the key in the policy configuration setup.
 
@@ -38,6 +48,15 @@ No need for the `"Authorization: Bearer $OPENAI_API_KEY"`
   }'
   
 ```
+
+## Try It
+These setup steps use Flex Gateway in connected mode running locally on a Mac.
+
+### Flex Gateway
+Create a new Flex Gateway instance using Docker.
+
+An an HTTP API. Set upstream value to openai.api.com/v1 and set x to flex-api (optional) but future examples use this.
+
 
 ## Make command reference
 This project has a Makefile that includes different goals that assist the developer during the policy development lifecycle.

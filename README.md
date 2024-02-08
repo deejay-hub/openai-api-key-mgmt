@@ -55,6 +55,10 @@ These setup steps use Flex Gateway in connected mode running locally on a Mac. M
 ### Flex Gateway
 Step 1. Open Anypoint Platform and head to Runtime Manager. Select Flex Gateways then choose Container -> Docker.
 
+<p align="center">
+  <img alt="gateway-setup" src="images/add-gateway.png">
+</p>
+
 Step 2. Pull the flex gateway image and start the gateway on port 8081.
 
 a) Pull the latest image
@@ -72,10 +76,12 @@ docker run --entrypoint flexctl -u $UID \
   <gateway-name>
 ```
 c) Start the gateway
+```
 docker run --rm \
   -v "$(pwd)":/usr/local/share/mulesoft/flex-gateway/conf.d \
   -p 8081:8081 \
   mulesoft/flex-gateway
+```
 
 Step 3. Head to API Manager in Anypoint. Select `Add API -> Add new API`.
 
@@ -86,6 +92,10 @@ Step 5. Select Create new API. Choose `OpenAI API` as the name and and `open-ai-
 Step 6. Select Port `8081` and change the base path to `/flex-api`. Click Next.
 
 Step 7. Enter `https://openai.api.com/v1` as the upstream URL
+
+<p align="center">
+  <img alt="policy-config" src="images/api-settings.png">
+</p>
 
 Test the configuration by calling the Flex Gateway endpoint to see that you get a response from OpenAI. Note that since we don't include the OpenAI API key we will get a 401 unauthorised at this stage. Note that you will need to restrict the response payload so use terms like 'in less than 20 words' to get OpenAI to return a consumable response.
 
@@ -108,11 +118,11 @@ Step 8. After downloading the policy use `make build` then `make release`.
 
 Step 9. Apply the policy in API Manager to the API created in Step 3. In the openai-api-key section enter a valid key from OpenAI.
 
+<p align="center">
+  <img alt="policy-config" src="images/policy-config.png">
+</p>
 
-
-Step 10. Verify that the policy now 
-
-
+Step 10. Verify that the policy now successfully gets a response.
 
 ## Make command reference
 This project has a Makefile that includes different goals that assist the developer during the policy development lifecycle.

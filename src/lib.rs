@@ -15,7 +15,7 @@ async fn request_filter(request_state: RequestState, config: &Config) {
     
     let headers = request_state.into_headers_state().await;
 
-    logger::info!("==>ADDING KET TO HEADER: {redacted_key}",);
+    logger::info!("==>ADDING KEY TO HEADER: {redacted_key}",);
     headers.handler().add_header("Authorization", format!("Bearer {}", openai_api_key).as_str());
     
     Flow::Continue(());

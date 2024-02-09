@@ -19,4 +19,5 @@ spec:
       # definition gcl.yaml. Eg:
       # config:
       #   someProperty: desiredValue
-      config: {}
+      config:
+        openai-api-key: samplekeythatshowsitworks

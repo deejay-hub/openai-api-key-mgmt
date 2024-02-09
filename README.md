@@ -1,8 +1,8 @@
 <div align="center">
 	<img
-	width="50"
-	src="/images/flex-gateway.svg">
-	<h1>Open API Key Management Policy</h1>
+	width="80"
+	src="/images/mulesoft-logo.png">
+	<h1>OpenAI API Key Management Policy</h1>
 </div>
 
 <h4 align="center">

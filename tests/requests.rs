@@ -11,7 +11,7 @@ use pdk_test::services::httpmock::{HttpMockConfig, HttpMock};
 use common::*;
 
 // Directory with the configurations for the `hello` test.
-const HELLO_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/requests/hello");
+const HELLO_CONFIG_DIR: &str =  concat!(env!("CARGO_MANIFEST_DIR"), "/tests/requests/key-check");
 
 // Flex port for the internal test network
 const FLEX_PORT: Port = 8081;
@@ -19,7 +19,7 @@ const FLEX_PORT: Port = 8081;
 // This integration test shows how to build a test to compose a local-flex instance
 // with a MockServer backend
 #[pdk_test]
-async fn hello() -> anyhow::Result<()> {
+async fn check_openai_api_key() -> anyhow::Result<()> {
 
     // Configure a Flex service
     let flex_config = FlexConfig::builder()
@@ -59,17 +59,21 @@ async fn hello() -> anyhow::Result<()> {
     // Create a MockServer
     let mock_server = MockServer::connect_async(httpmock.socket()).await;
 
-    // Mock a /hello request
-    mock_server.mock_async(|when, then| {
-        when.path_contains("/hello");
-        then.status(202).body("World!");
-    }).await;
+    let success_mock = mock_server
+        .mock_async(|when, then| {
+            when.header_exists("Authorization");
+            then.status(200)
+                .body("Header Present");
+        })
+        .await;
 
-    // Perform an actual request
-    let response = reqwest::get(format!("{flex_url}/hello")).await?;
+    // Send a request with two query parameters.
+    let _response = reqwest::Client::new()
+        .get(format!("{flex_url}/hello"))
+        .send()
+        .await?;
 
-    // Assert on the response
-    assert_eq!(response.status(), 202);
+    success_mock.assert();
 
     Ok(())
 }
